@@ -1,1 +1,1 @@
-# vue-firebase
+# Vue.js with Firebase
