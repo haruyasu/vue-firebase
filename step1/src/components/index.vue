@@ -10,13 +10,17 @@
           </li>
         </ul>
       </div>
+      <span class="btn-floating btn-large halfway-fab pink">
+        <router-link :to="{ name: 'EditSmoothie', params: {smoothie_slug: smoothie.slug}}">
+          <i class="material-icons edit">edit</i>
+        </router-link>
+      </span>
     </div>
   </div>
 </template>
 
 <script>
 import db from "@/firebase/init";
-
 export default {
   name: "Index",
   data() {
@@ -25,17 +29,19 @@ export default {
     };
   },
   methods: {
-    deleteSmoothie(id){
+    deleteSmoothie(id) {
       // delete doc from firestore
-      console.log(id)
-      db.collection('smoothies').doc(id).delete()
-      .then(() => {
-        this.smoothies = this.smoothies.filter(smoothie => {
-          return smoothie.id != id
+      db.collection("smoothies")
+        .doc(id)
+        .delete()
+        .then(() => {
+          this.smoothies = this.smoothies.filter(smoothie => {
+            return smoothie.id != id;
+          });
         })
-      }).catch(err => {
-        console.log(err)
-      })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   created() {
@@ -44,7 +50,6 @@ export default {
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          console.log(doc.data());
           let smoothie = doc.data();
           smoothie.id = doc.id;
           this.smoothies.push(smoothie);
